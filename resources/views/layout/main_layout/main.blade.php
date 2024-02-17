@@ -185,11 +185,9 @@
     <script src="{{ asset('AdminLTE/dist/js/pages/dashboard2.js') }}"></script>
     <script>
         $(function() {
-            var url = window.location.href;
-            url = url.replace("#", "");
+            var url = window.location;
             // for single sidebar menu
             $('ul.nav-sidebar a').filter(function() {
-
                 return this.href == url;
             }).addClass('active');
 
@@ -203,9 +201,7 @@
                 .addClass('menu-open').prev('a')
                 .addClass('active');
 
-            $('.select2').select2({
-                tags: true,
-            });
+            $('.select2').select2();
             bsCustomFileInput.init();
         });
 

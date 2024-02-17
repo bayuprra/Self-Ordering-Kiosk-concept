@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MenuController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,4 +32,18 @@ Route::controller(PasswordController::class)->middleware('auth')->group(function
 
 Route::controller(DashboardController::class)->middleware('auth')->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
+});
+
+Route::controller(KategoriController::class)->middleware('auth')->group(function () {
+    Route::get('/kategori', 'index')->name('kategori');
+    Route::post('/addKategori', 'store')->name('addKategori');
+    Route::post('/updateKategori', 'update')->name('updateKategori');
+    Route::post('/deleteKategori', 'delete')->name('deleteKategori');
+});
+
+Route::controller(MenuController::class)->middleware('auth')->group(function () {
+    Route::get('/menu', 'index')->name('menu');
+    Route::post('/addMenu', 'store')->name('addMenu');
+    Route::post('/updateMenu', 'update')->name('updateMenu');
+    Route::post('/deleteMenu', 'delete')->name('deleteMenu');
 });
