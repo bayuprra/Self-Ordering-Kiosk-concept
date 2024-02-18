@@ -1,5 +1,13 @@
 @extends('layout.main_layout.main')
-
+@section('style')
+    <style>
+        .select2-container--default .select2-selection--single {
+            border: 1px solid #ced4da;
+            padding: 0.46875rem 0.75rem;
+            height: calc(2.25rem + 2px);
+        }
+    </style>
+@endsection
 @section('content')
     <section class="content">
         <div class="container-fluid">
@@ -37,11 +45,14 @@
                             <?php
                             $num = 1;
                             ?>
-                            {{-- @foreach ($data as $da)
+                            @foreach ($data as $da)
                                 <tr>
                                     <td>{{ $num++ }}</td>
                                     <td>{{ $da->nama }}
                                     </td>
+                                    <td>{{ $da->kategori }}</td>
+                                    <td>{{ $da->Harga }}</td>
+                                    <td></td>
                                     <td>
                                         <div class="row">
                                             <div class="col-6">
@@ -64,7 +75,7 @@
 
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -73,22 +84,61 @@
         </div><!--/. container-fluid -->
     </section>
     <div class="modal fade" id="modal-add">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Tambah Kategori</h4>
+                    <h4 class="modal-title">Tambah Menu</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('addKategori') }}" method="POST">
+                    <form action="{{ route('addMenu') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label>Nama Kategori</label>
-                                    <input type="text" class="form-control" placeholder="Nama Kategori" name="nama">
+                                    <label>Nama Menu</label>
+                                    <input type="text" class="form-control" placeholder="Nama Menu" name="nama"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="form-control select2" style="width: 100%;" tabindex="-1"
+                                        aria-hidden="true" name="kategori" required>
+                                        <option selected="selected" disabled>- Select Category -</option>
+                                        @foreach ($kategori as $cat)
+                                            <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Harga</label>
+                                    <input type="text" class="form-control" placeholder="Harga" name="harga" required
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto Menu</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input gambarMenu" name="gambar"
+                                            accept=".jpg, .jpeg, .png" data-con="0">
+                                        <label class="custom-file-label" for="gambarMenu">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Preview</label>
+                                    <img class="img-fluid " style="max-height: 150px; width:100%" alt="Photo"
+                                        src="{{ asset('image/prev.png') }}" id="preview-0">
                                 </div>
                             </div>
                         </div>
@@ -104,26 +154,69 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- @foreach ($data as $da)
+    @foreach ($data as $da)
         <div class="modal fade" id="modal-update-{{ $da->id }}">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit Kategori</h4>
+                        <h4 class="modal-title">Edit Menu</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('updateKategori') }}" method="POST">
+                        <form action="{{ route('updateMenu') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" value="{{ $da->id }}">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-4">
                                     <div class="form-group">
-                                        <label>Nama Kategori</label>
-                                        <input type="text" class="form-control" placeholder="Nama Kategori"
-                                            name="nama" value="{{ $da->nama }}">
+                                        <label>Nama Menu</label>
+                                        <input type="text" class="form-control" placeholder="Nama Menu"
+                                            name="nama" required value="{{ $da->nama }}">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Kategori</label>
+                                        <select class="form-control select2" style="width: 100%;" tabindex="-1"
+                                            aria-hidden="true" name="kategori" required>
+                                            <option selected="selected" disabled>- Select Category -</option>
+                                            @foreach ($kategori as $cat)
+                                                <option value="{{ $cat->id }}"
+                                                    {{ $cat->id == $da->kategori_id ? 'selected' : '' }}>
+                                                    {{ $cat->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>Harga</label>
+                                        <input type="text" class="form-control" placeholder="Harga" name="harga"
+                                            value="{{ $da->Harga }}" required
+                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Foto Menu</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input gambarMenu" id="gambarMenu"
+                                                name="gambar" accept=".jpg, .jpeg, .png" value="{{ $da->gambar }}"
+                                                data-con="{{ $da->id }}">
+                                            <label class="custom-file-label" for="gambarMenu">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Preview</label>
+                                        <img class="img-fluid" style="max-height: 150px; width:100%" alt="Photo"
+                                            src="{{ $da->gambar != 'prev.png' && file_exists(public_path('image/menu/' . $da->gambar)) ? asset('image/menu/' . $da->gambar) : asset('image/' . $da->gambar) }}"
+                                            id="preview-{{ $da->id }}">
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +231,7 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-    @endforeach --}}
+    @endforeach
 @endSection
 
 @section('script')
@@ -149,25 +242,25 @@
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [{
-                    "text": "Tambah Kategori",
+                    "text": "Tambah Menu",
                     "className": "btn btn-primary btn-info",
                     "action": function() {
                         $('#modal-add').modal('show');
                     }
                 }],
-                "columnDefs": [{
-                        "width": "10%",
-                        "targets": 0
-                    }, // Kolom pertama
-                    {
-                        "width": "70%",
-                        "targets": 1
-                    }, // Kolom kedua
-                    {
-                        "width": "20%",
-                        "targets": 2
-                    } // Kolom ketiga
-                ]
+                // "columnDefs": [{
+                //         "width": "10%",
+                //         "targets": 0
+                //     }, // Kolom pertama
+                //     {
+                //         "width": "70%",
+                //         "targets": 1
+                //     }, // Kolom kedua
+                //     {
+                //         "width": "20%",
+                //         "targets": 2
+                //     } // Kolom ketiga
+                // ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
 
@@ -188,5 +281,19 @@
                 }
             })
         }
+
+        $(".gambarMenu").change(function(e) {
+            e.preventDefault();
+            var input = e.target;
+            var reader = new FileReader();
+            const dataCon = $(this).data('con');
+            reader.onload = function() {
+                var dataURL = reader.result;
+                $("#preview-" + dataCon).attr("src", dataURL);
+            };
+
+            // Baca file gambar yang dipilih
+            reader.readAsDataURL(input.files[0]);
+        })
     </script>
 @endSection

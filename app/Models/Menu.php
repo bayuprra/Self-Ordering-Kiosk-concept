@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Menu extends Model
 {
@@ -13,8 +14,19 @@ class Menu extends Model
         'nama',
         'kategori_id',
         'available',
-        'harga',
+        'Harga',
         'gambar'
     ];
     public $timestamps = false;
+
+    function getCategory()
+    {
+        return DB::table("menu as m")
+            ->leftJoin('kategori as k', 'm.kategori_id', '=', 'k.id')
+            ->select(
+                'm.*',
+                'k.nama as kategori'
+            )
+            ->get();
+    }
 }
