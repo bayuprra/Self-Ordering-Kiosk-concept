@@ -21,6 +21,8 @@ class CreateMenusTable extends Migration
                 ->nullOnDelete();
             $table->string('nama');
             $table->bigInteger("Harga");
+            $table->text("deskripsi")
+                ->nullable();
             $table->text("gambar");
         });
     }

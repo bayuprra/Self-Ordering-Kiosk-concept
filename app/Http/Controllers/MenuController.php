@@ -9,7 +9,6 @@ class MenuController extends Controller
 {
     public function index()
     {
-        dump($this->menuModel->getCategory());
         return view('layout/admin_layout/menu', [
             'title'         => "Menu",
             'folder'        => "Home",
@@ -40,10 +39,11 @@ class MenuController extends Controller
         }
 
         $dataToInserted = array(
-            'nama'     => $data['nama'],
-            'kategori_id'     => $data['kategori'],
-            'Harga'     => $data['harga'],
-            'gambar'     => $name,
+            'nama'          => $data['nama'],
+            'kategori_id'   => $data['kategori'],
+            'Harga'         => $data['harga'],
+            'deskripsi'     => $data['deskripsi'],
+            'gambar'        => $name,
         );
         $inserted = $this->menuModel::create($dataToInserted);
         if ($inserted) {
@@ -83,14 +83,14 @@ class MenuController extends Controller
     }
 
     // /**\ Delete */
-    // public function delete(Request $request)
-    // {
-    //     $id = intval($request['id']);
-    //     $data = $this->kategoriModel->find($id);
-    //     $deleteData = $data->delete();
-    //     if ($deleteData) {
-    //         return redirect()->back()->with('success', 'Kategori Berhasil Dihapus');
-    //     }
-    //     return redirect()->back()->with('error', 'Kategori Gagal Dihapus');
-    // }
+    public function delete(Request $request)
+    {
+        $id = intval($request['id']);
+        $data = $this->menuModel->find($id);
+        $deleteData = $data->delete();
+        if ($deleteData) {
+            return redirect()->back()->with('success', 'Menu Berhasil Dihapus');
+        }
+        return redirect()->back()->with('error', 'Menu Gagal Dihapus');
+    }
 }

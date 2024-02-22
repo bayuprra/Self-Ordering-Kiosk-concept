@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\akunModel;
 use App\Models\Kategori;
 use App\Models\Menu;
+use App\Models\Meja;
 use App\Models\roleModel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -15,7 +16,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected $roleModel, $akunModel, $kategoriModel, $menuModel;
+    protected $roleModel, $akunModel, $kategoriModel, $menuModel, $mejaModel;
 
     public function __construct()
     {
@@ -23,5 +24,6 @@ class Controller extends BaseController
         $this->akunModel = new akunModel();
         $this->kategoriModel = new Kategori();
         $this->menuModel = new Menu();
+        $this->mejaModel = new Meja();
     }
 }

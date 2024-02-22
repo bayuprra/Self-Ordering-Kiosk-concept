@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MejaController;
 use App\Http\Controllers\MenuController;
 
 /*
@@ -46,4 +47,11 @@ Route::controller(MenuController::class)->middleware('auth')->group(function () 
     Route::post('/addMenu', 'store')->name('addMenu');
     Route::post('/updateMenu', 'update')->name('updateMenu');
     Route::post('/deleteMenu', 'delete')->name('deleteMenu');
+});
+
+Route::controller(MejaController::class)->middleware('auth')->group(function () {
+    Route::get('/meja', 'index')->name('meja');
+    Route::post('/addMeja', 'store')->name('addMeja');
+    Route::post('/updateMeja', 'update')->name('updateMeja');
+    Route::post('/deleteMeja', 'delete')->name('deleteMeja');
 });

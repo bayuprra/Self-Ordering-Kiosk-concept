@@ -38,10 +38,20 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-hamburger"></i>
                         <p>
-                            Food and Beverage
+                            Manage
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('meja') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Table
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('kategori') }}" class="nav-link">
@@ -61,6 +71,7 @@
                         </li>
                     </ul>
                 </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

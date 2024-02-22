@@ -15,6 +15,7 @@ class Menu extends Model
         'kategori_id',
         'available',
         'Harga',
+        'deskripsi',
         'gambar'
     ];
     public $timestamps = false;
