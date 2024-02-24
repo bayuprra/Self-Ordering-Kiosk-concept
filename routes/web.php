@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MejaController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,8 @@ Route::controller(MejaController::class)->middleware('auth')->group(function () 
     Route::post('/addMeja', 'store')->name('addMeja');
     Route::post('/updateMeja', 'update')->name('updateMeja');
     Route::post('/deleteMeja', 'delete')->name('deleteMeja');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/order/{table?}', 'index')->name('order');
 });

@@ -250,7 +250,7 @@
                                         <div class="form-group">
                                             <label>Preview</label>
                                             <img class="img-fluid" style="max-height: 150px; width:100%" alt="Photo"
-                                                src="{{ $da->gambar != 'prev.png' && file_exists(public_path('image/menu/' . $da->gambar)) ? asset('image/menu/' . $da->gambar) : asset('image/' . $da->gambar) }}"
+                                                src="{{ $da->gambar != 'prev.png' && file_exists(public_path('image/menu/' . $da->gambar)) ? asset('image/menu/' . $da->gambar) : asset('image/prev.png') }}"
                                                 id="preview-{{ $da->id }}">
                                         </div>
                                     </div>

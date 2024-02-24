@@ -262,7 +262,7 @@
             var qrCodeDataURL = qrcode._el.childNodes[0].toDataURL("image/png");
             var downloadLink = document.createElement("a");
             downloadLink.href = qrCodeDataURL;
-            downloadLink.download = "qrcode.png";
+            downloadLink.download = `Meja ${id}.png`;
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);

@@ -24,6 +24,7 @@ class CreateMenusTable extends Migration
             $table->text("deskripsi")
                 ->nullable();
             $table->text("gambar");
+            $table->boolean("available")->default(true);
         });
     }
 

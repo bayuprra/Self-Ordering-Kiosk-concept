@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -60,15 +61,17 @@ class MenuController extends Controller
         // Check if a file is present in the request
         if ($request->hasFile('gambar')) {
             $dataForm['gambar'] = $request->file('gambar');
+
             if ($data->gambar !== "prev.png") {
-                $path = public_path('image/menu/' . $data->gambar);
-                if (File::exists($path)) {
-                    File::delete($path);
+                $path = 'image/menu/' . $data->gambar;
+
+                if (Storage::exists($path)) {
+                    Storage::delete($path);
                 }
             }
 
             $name = $this->random_string() . ".png";
-            $dataForm['gambar']->move('image/menu/', $name);
+            $request->file('gambar')->move('image/menu/', $name);
             $dataForm['gambar'] = $name;
         } else {
             unset($dataForm['gambar']);
