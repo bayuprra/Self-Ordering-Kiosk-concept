@@ -64,7 +64,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('menu') }}" class="nav-link">
+                            <a href="{{ route('mennu') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Menu</p>
                             </a>

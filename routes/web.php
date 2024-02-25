@@ -44,7 +44,7 @@ Route::controller(KategoriController::class)->middleware('auth')->group(function
 });
 
 Route::controller(MenuController::class)->middleware('auth')->group(function () {
-    Route::get('/menu', 'index')->name('menu');
+    Route::get('/mennu', 'index')->name('mennu');
     Route::post('/addMenu', 'store')->name('addMenu');
     Route::post('/updateMenu', 'update')->name('updateMenu');
     Route::post('/deleteMenu', 'delete')->name('deleteMenu');
