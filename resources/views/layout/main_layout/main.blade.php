@@ -7,8 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ config('midtrans.client_key') }}"></script>
-    <title>TITLE | {{ $title ?? '' }}</title>
+    <title>Phoenix Gastrobar | {{ $title ?? '' }}</title>
 
+    <link rel="icon" href="{{ asset('image/assets/logob.png') }}">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -33,6 +34,7 @@
     <!-- Select2-->
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @yield('style')
 </head>
 
@@ -41,22 +43,29 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-                height="60" width="60">
+            <img class="animation__wobble" src="{{ asset('image/assets/logob.png') }}" alt="AdminLTELogo"
+                height="100" width="100">
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-light navbar-additional row">
             <!-- Left navbar links -->
-            <ul class="navbar-nav">
+            <ul class="navbar-nav col-4">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
             </ul>
+            <ul class="navbar-nav mx-auto col-4">
+                <li class="nav-item text-center">
+                    <a class="brand-link" style="text-decoration: none; color:white"><img
+                            src="{{ asset('image/assets/logo.png') }}" alt="Logo"
+                            class="brand-image img-circle elevation-3" style="opacity: .8"><b>Phoenix</b>Gastrobar</a>
+                </li>
+            </ul>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav col-4 ml-auto justify-content-end">
                 <!-- Navbar Search -->
 
                 <!-- Notifications Dropdown Menu -->
@@ -111,32 +120,6 @@
 
             <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-        <div class="modal fade" id="modal-sm">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Small Modal</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body&hellip;</p>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
         <!-- /.control-sidebar -->
 
         <!-- Main Footer -->

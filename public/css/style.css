@@ -1,0 +1,36 @@
+:root {
+    --primary: #e25e3e;
+    --secondary: #ff9b50;
+    --third: #ffbb5c;
+}
+
+.navbar-additional {
+    background-color: var(--secondary);
+}
+
+.sidebar-additional {
+    background-color: var(--primary);
+}
+
+.brand-link img {
+    background-color: white;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: var(--secondary);
+}
+
+[class*="sidebar-dark-"] .sidebar a,
+[class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link,
+.main-footer {
+    color: white;
+}
+
+.content-card {
+    background-color: var(--third);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary);
+}

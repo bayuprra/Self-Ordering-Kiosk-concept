@@ -54,7 +54,7 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
-            <div class="card">
+            <div class="card content-card">
                 <div class="card-header">
                     @if (session()->has('success'))
                         <div class="alert alert-success alert-dismissible">
