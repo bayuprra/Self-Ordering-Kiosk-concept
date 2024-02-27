@@ -54,6 +54,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            background-color: var(--primary)
         }
 
         .sticky-button .badge-center {
@@ -109,6 +110,10 @@
             overflow-y: auto;
         }
 
+        #cart {
+            color: white;
+        }
+
         @media only screen and (max-width: 576px) {
 
             /* Small devices (landscape phones, 576px and up) */
@@ -122,7 +127,7 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
-            <div class="card">
+            <div class="card content-card">
                 <div class="card-header">
                     <div class="content-header">
                         <div class="container-fluid">
