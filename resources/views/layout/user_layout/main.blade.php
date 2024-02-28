@@ -32,6 +32,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 
+    {{-- steeper --}}
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/bs-stepper/css/bs-stepper.min.css') }}">
+
     <style>
         /* body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
             margin-left: 0;
@@ -103,6 +106,8 @@
 
     <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
 
+    {{-- steeper --}}
+    <script src="{{ asset('AdminLTE/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
 
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->

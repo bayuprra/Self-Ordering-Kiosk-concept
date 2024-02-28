@@ -96,4 +96,15 @@ class MenuController extends Controller
         }
         return redirect()->back()->with('error', 'Menu Gagal Dihapus');
     }
+
+    public function findById(Request $request)
+    {
+        $data = $request->input('data');;
+        $id = $data['id'];
+        $dataMenu = $this->menuModel->where('id', $id)->first();
+        if ($dataMenu) {
+            return response()->json(['data' => $dataMenu]);
+        }
+        return response()->json(['data' => false]);
+    }
 }
