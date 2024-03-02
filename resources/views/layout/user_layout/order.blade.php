@@ -372,53 +372,24 @@
                                         style="background-color: white;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 30%">Nama Barang</th>
+                                                <th style="width: 30%">Menu</th>
                                                 <th>Jumlah</th>
                                                 <th>Harga</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="formContainer">
-                                            <tr>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="jumlah1" name="jumlah1"
-                                                            data-nama="1"
-                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                            disabled style="width:100%" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="jumlah12" name="jumlah1"
-                                                            data-nama="1"
-                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                            style="width:100%" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="jumlah13" name="jumlah1"
-                                                            data-nama="1"
-                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                            disabled style="width:100%" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input type="text" id="jumlah122" name="jumlah1"
-                                                            data-nama="1"
-                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                            disabled style="width:100%" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        <form action="{{ route('addMenu') }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <tbody id="formContainer">
+                                            </tbody>
+                                        </form>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="3" style="text-align: right;"></th>
-                                                <th colspan="1"><button type="button"
-                                                        class="btn  btn-info btn-block">Pembayaran</button>
+                                                <th colspan="1" style="text-align: right;"><button type="button"
+                                                        id="finishOrder"
+                                                        class="btn  btn-info btn-block">Pembayaran</button></th>
+                                                <th colspan="3">
                                                 </th>
 
                                             </tr>
@@ -426,8 +397,31 @@
                                         <tfoot>
                                             <tr>
                                                 <th colspan="2"></th>
-                                                <th>Total Belanja</th>
-                                                <th colspan="2" id="totalSemua">RP. </th>
+                                                <th>SUBTOTAL</th>
+                                                <th colspan="2">
+                                                    <input type="text" id="subTotal" name="subTotal" disabled
+                                                        style="width:100%" value="Rp. 0" />
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2"></th>
+                                                <th>PB1 10%</th>
+                                                <th colspan="2">
+                                                    <input type="text" id="pajak" name="pajak" disabled
+                                                        style="width:100%" value="Rp. 0" />
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2"></th>
+                                                <th>TOTAL</th>
+                                                <th colspan="2">
+                                                    <input type="text" id="totalSemua" name="totalSemua" disabled
+                                                        style="width:100%" value="Rp. 0" />
+                                                </th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -489,11 +483,10 @@
             </div>
         </div>
     @endforeach
-    <button class="btn btn-lg btn-info sticky-button" onclick="stepper.next()" id="nextDown"><i
-            class="fas fa-shopping-cart"></i>
+    <button class="btn btn-lg btn-info sticky-button" id="nextDown"><i class="fas fa-shopping-cart"></i>
         <span class="badge badge-warning  .badge-center" id="cart">0</span></button>
-    <button class="btn btn-lg btn-info sticky-button" onclick="stepper.previous()" style="display: none"
-        id="backDown"><i class="fas fa-long-arrow-alt-left"></i>
+    <button class="btn btn-lg btn-info sticky-button" style="display: none" id="backDown"><i
+            class="fas fa-long-arrow-alt-left"></i>
         <span class="badge badge-warning  .badge-center">Back</span></button>
 @endSection
 
@@ -517,17 +510,25 @@
 
         });
         $("#nextDown").click(function(e) {
+            if (parseInt($(this).text()) === 0) {
+                return Swal.fire("Please Add Order!");
+            }
+            stepper.next()
             $(this).hide();
             $("#backDown").show();
         });
         $("#backDown").click(function(e) {
+            stepper.previous()
+            $(this).hide();
+            $("#nextDown").show();
+        })
+        $("#finishOrder").click(function(e) {
+            stepper.next();
             $(this).hide();
             $("#nextDown").show();
         })
 
-        function generateDetail() {
 
-        }
 
         function toggleDescription(element) {
             $("#fullDescription-" + element).show();
@@ -553,8 +554,7 @@
             let countCart = sessionStorage.getItem('cart') || 0;
             countCart = parseInt(countCart) + 1;
             sessionStorage.setItem('cart', countCart.toString());
-            console.log(id);
-            addMenu(id);
+            addMenu(id, realJml.val());
 
             idAddChart.hide();
             idSum.show();
@@ -574,12 +574,13 @@
                     const idAddChart = $("#toChart-" + id);
                     const idSum = $("#sum-" + id);
                     const idDelChart = $("#fromChart-" + id);
-
+                    $("#row-" + id).remove();
                     idAddChart.show();
                     idSum.hide();
                     idDelChart.hide();
                     $("#jmlReal-" + id).val(1);
                     $("#jml-" + id).val(1);
+                    totalBelanja();
                     let countCart = sessionStorage.getItem('cart');
                     countCart = parseInt(countCart) - 1;
                     sessionStorage.setItem('cart', countCart.toString());
@@ -607,25 +608,38 @@
 
         function tambahJumlahReal(id) {
             const jml = $("#jmlReal-" + id);
+            const detHarga = $("#detailHarga-" + id).val();
             let current = parseInt(jml.val());
-            jml.val(current += 1)
+            let end = current + 1;
+            jml.val(end)
+            $("#detailOrder-" + id).val(end);
+            $("#total-" + id).val(parseInt(detHarga) * end)
             $("#kurangiReal-" + id).prop("disabled", false)
+            totalBelanja();
         }
 
         function kurangJumlahReal(id) {
             const jml = $("#jmlReal-" + id);
+            const detHarga = $("#detailHarga-" + id).val();
+
             let current = parseInt(jml.val());
             if (current === 1) {
                 $("#kurangiReal-" + id).prop("disabled", true)
                 return;
             }
-            jml.val(current -= 1)
+            let end = current - 1;
+            jml.val(end)
+            $("#detailOrder-" + id).val(end);
+            $("#total-" + id).val(parseInt(detHarga) * end)
+            totalBelanja();
+
         }
 
-        function addMenu(menuId) {
+        function addMenu(menuId, jml) {
             const dataUp = {
                 id: menuId
             }
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -637,13 +651,62 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function(result) {
-                    console.log(result);
-                    const res = result.data;
+                    let harga = result.data.Harga ?? 0;
+                    const nama = result.data.nama ?? 0;
+                    var newRow = $("<tr id='row-" + menuId + "'>" +
+                        "<td><div class='form-group'><input type='text' name='nama[]' disabled style='width:100%' value='" +
+                        nama + "'/></div></td>" +
+                        "<td><div class='form-group'><input type='text' value='" + jml +
+                        "' id='detailOrder-" + menuId +
+                        "' name='jumlah[]' oninput='this.value = this.value.replace(/[^0-9]/g, \"\");' onchange='updateTotal(this, " +
+                        menuId +
+                        "," + harga + ")' style='width:100%'/></div></td>" +
+                        "<td><div class='form-group'><input type='text' id='detailHarga-" + menuId +
+                        "' value='" + harga +
+                        "' name='harga[]' disabled style='width:100%'/></div></td>" +
+                        "<td><div class='form-group'><input type='text' name='total[]' id='total-" +
+                        menuId + "' disabled style='width:100%'/></div></td>" +
+                        "</tr>");
+
+                    $("#formContainer").append(newRow);
+                    $("#total-" + menuId).val(harga * jml);
+                    totalBelanja();
                 },
                 error: function(err) {
                     console.log(err);
                 }
             });
+        }
+
+        function updateTotal(inputElement, idmenu, harga) {
+            let newJumlah = $(inputElement).val();
+            if (parseInt(newJumlah) === 0) {
+                $(inputElement).val(1)
+                $("#total-" + idmenu).val(parseInt(harga) * 1);
+                return Swal.fire("Cannot 0!");
+            }
+            let total = parseInt(harga) * parseInt(newJumlah);
+            if (!isNaN(total)) {
+                $("#jmlReal-" + idmenu).val(parseInt(newJumlah));
+                $("#total-" + idmenu).val(total);
+                totalBelanja();
+            } else {
+                $("#total-" + idmenu).val(''); // Atau sesuaikan dengan penanganan kesalahan yang sesuai
+            }
+        }
+
+        function totalBelanja() {
+            var totalElements = $("input[name='total[]']");
+            var total = 0;
+            totalElements.each(function() {
+                var nilaiTotal = parseInt($(this).val(), 10) ||
+                    0;
+                total += nilaiTotal;
+            });
+            $("#subTotal").val(total);
+            let pajak = 10 / 100 * total;
+            $("#pajak").val(pajak);
+            $("#totalSemua").val(pajak + total);
         }
     </script>
 @endSection
