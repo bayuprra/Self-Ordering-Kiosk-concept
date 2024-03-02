@@ -60,4 +60,5 @@ Route::controller(MejaController::class)->middleware('auth')->group(function () 
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/order', 'index')->name('order')->where('table', '[0-9]+');
+    Route::post('/bayar', 'bayar')->name('bayar');
 });

@@ -126,6 +126,84 @@
             padding: unset
         }
 
+        #payment .card {
+            width: 50%;
+            height: 100%;
+            margin: auto;
+            background: white;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            transition-duration: 0.5s;
+        }
+
+        #payment .title {
+            text-align: center;
+            margin-top: 0.5em;
+            font-weight: bold;
+            font-size: x-large;
+            color: var(--primary);
+        }
+
+        #payment .pricecontainer {
+            width: 100%;
+            margin-top: 0.7em;
+            background-color: var(--primary);
+            box-shadow: inset 0px 0px 2em rgba(0, 0, 0, 0.3);
+        }
+
+        #payment .price {
+            text-align: center;
+            color: white;
+            font-size: x-large;
+            font-weight: bold;
+            padding: 0.75em 0 0 0;
+        }
+
+        #payment .pricedescriptor {
+            text-align: center;
+            color: rgb(118, 118, 118);
+            font-size: medium;
+            padding: 0 0 1em 0;
+        }
+
+        #payment .includes {
+            text-align: center;
+            color: rgb(110, 110, 110);
+            margin-top: 1em;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        #payment .benefitlist li {
+            color: rgb(150, 150, 150);
+            font-size: small;
+            text-align: center;
+        }
+
+        #payment .benefitlist li:nth-child(1) {
+            margin-top: 0.4em;
+        }
+
+        #payment .btncontainer {
+            text-align: center;
+        }
+
+        #payment .btncontainer button {
+            margin-top: 1em;
+            margin-bottom: 1em;
+            padding: 1em 2em;
+            border-style: none;
+            border-radius: 1000000px;
+            color: rgb(239, 239, 239);
+            font-weight: bold;
+            background-color: var(--primary);
+            transition: box-shadow 0.15s ease-in-out;
+        }
+
+        #payment .btncontainer button:hover {
+            box-shadow: inset 0px 0px 5px rgb(0, 0, 0);
+            transition: box-shadow 0.15s ease-in-out;
+        }
+
 
         @media only screen and (max-width: 576px) {
 
@@ -133,6 +211,10 @@
             #mennu {
                 max-height: 600px;
                 /* Sesuaikan nilai max-height untuk layar laptop */
+            }
+
+            #payment .card {
+                width: 100%;
             }
         }
     </style>
@@ -156,9 +238,9 @@
                                             </button>
                                         </div>
                                         <div class="line"></div>
-                                        <div class="step" data-target="#information-part">
+                                        <div class="step" data-target="#detailPesanan">
                                             <button type="button" class="step-trigger" role="tab"
-                                                aria-controls="information-part" id="information-part-trigger">
+                                                aria-controls="detailPesanan" id="detailPesanan-trigger">
                                                 <span class="bs-stepper-circle">2</span>
                                                 <span class="bs-stepper-label">Detail Pesanan</span>
                                             </button>
@@ -168,7 +250,7 @@
                                             <button type="button" class="step-trigger" role="tab"
                                                 aria-controls="payment" id="payment-trigger">
                                                 <span class="bs-stepper-circle">3</span>
-                                                <span class="bs-stepper-label">Pembayaran</span>
+                                                <span class="bs-stepper-label">Payment</span>
                                             </button>
                                         </div>
                                     </div>
@@ -366,10 +448,9 @@
                                         <!-- /.card -->
                                     </div>
                                 </div>
-                                <div id="information-part" class="content" role="tabpanel"
-                                    aria-labelledby="information-part-trigger">
-                                    <table id="example1" class="table table-bordered table-striped"
-                                        style="background-color: white;">
+                                <div id="detailPesanan" class="content" role="tabpanel"
+                                    aria-labelledby="detailPesanan-trigger">
+                                    <table id="example1" class="table" style="background-color: white;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 30%">Menu</th>
@@ -387,8 +468,8 @@
                                         <tfoot>
                                             <tr>
                                                 <th colspan="1" style="text-align: right;"><button type="button"
-                                                        id="finishOrder"
-                                                        class="btn  btn-info btn-block">Pembayaran</button></th>
+                                                        id="finishOrder" class="btn  btn-info btn-block">Payment</button>
+                                                </th>
                                                 <th colspan="3">
                                                 </th>
 
@@ -427,7 +508,51 @@
                                     </table>
                                 </div>
                                 <div id="payment" class="content" role="tabpanel" aria-labelledby="payment-trigger">
-                                    heh33e</div>
+                                    <div class="card" id="card-payment">
+                                        <p class="title">PAYMENT</p>
+                                        <div class="pricecontainer">
+                                            <p class="price" id="price">RP.0</p>
+                                            <p class="pricedescriptor"></p>
+                                        </div>
+                                        <p class="includes">Please Select Your Payment Method!</p>
+                                        <div class="btncontainer">
+                                            <button class="payNow" onclick="bayar()">PAY NOW</button>
+                                        </div>
+                                    </div>
+                                    <div class="card" id="payment-success" style="display: none">
+                                        <p class="title">PAYMENT</p>
+                                        <div class="pricecontainer">
+                                            <p class="price">PAYMENT SUCCESS!</p>
+                                            <p class="pricedescriptor"></p>
+                                        </div>
+                                        <p class="includes">Download Nota!</p>
+                                        <div class="btncontainer">
+                                            <button id="downloadNota">Download</button>
+                                        </div>
+                                    </div>
+                                    <div class="card" id="payment-pending" style="display: none">
+                                        <p class="title">PAYMENT</p>
+                                        <div class="pricecontainer">
+                                            <p class="price">PAYMENT PENDING!</p>
+                                            <p class="pricedescriptor"></p>
+                                        </div>
+                                        <p class="includes">Please Continue Your Payment!</p>
+                                        <div class="btncontainer">
+                                            <button class="payNow" onclick="bayar()">PAY NOW</button>
+                                        </div>
+                                    </div>
+                                    <div class="card" id="payment-failed" style="display: none">
+                                        <p class="title">PAYMENT</p>
+                                        <div class="pricecontainer">
+                                            <p class="price">PAYMENT FAILED!</p>
+                                            <p class="pricedescriptor"></p>
+                                        </div>
+                                        <p class="includes">Please Continue Your Payment!</p>
+                                        <div class="btncontainer">
+                                            <button class="payNow" onclick="bayar()">PAY NOW</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -491,6 +616,9 @@
 @endSection
 
 @section('script')
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas2image@1.0.5/canvas2image.min.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             window.stepper = new Stepper(document.querySelector(".bs-stepper"));
@@ -509,6 +637,20 @@
 
 
         });
+
+        function hideTableElements() {
+            $('#example1 thead, #finishOrder').css('display', 'none');
+            $('#example1 input').css('border', 'none');
+            $('#example1').css('border', 'none');
+            $('#example1 input[name="jumlah"]').prop('disabled', true);
+        }
+
+        function showTableElements() {
+            $('#example1 thead, #finishOrder').css('display', '');
+            $('#example1 input').css('border', '');
+            $('#example1').css('border', '');
+            $('#example1 input[name="jumlah"]').prop('disabled', false);
+        }
         $("#nextDown").click(function(e) {
             if (parseInt($(this).text()) === 0) {
                 return Swal.fire("Please Add Order!");
@@ -523,12 +665,124 @@
             $("#nextDown").show();
         })
         $("#finishOrder").click(function(e) {
-            stepper.next();
-            $(this).hide();
-            $("#nextDown").show();
+            // hideTableElements();
+            // html2canvas($('#example1')[0]).then(function(canvas) {
+            //     // Convert canvas to PNG as a data URL
+            //     const pngDataURL = canvas.toDataURL('image/png');
+
+            //     // Create a download link and click it
+            //     const downloadLink = document.createElement('a');
+            //     downloadLink.href = pngDataURL;
+            //     downloadLink.download = 'table.png';
+            //     document.body.appendChild(downloadLink);
+            //     downloadLink.click();
+            //     document.body.removeChild(downloadLink);
+            // });
+            // showTableElements();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Continue!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    stepper.next();
+                    $("#backDown").hide();
+                    $("#nextDown").hide();
+                }
+            });
+
         })
+        $("body").on("click", "#downloadNota", function(e) {
+            hideTableElements();
+            html2canvas($('#example1')[0]).then(function(canvas) {
+                // Convert canvas to PNG as a data URL
+                const pngDataURL = canvas.toDataURL('image/png');
+
+                // Create a download link and click it
+                const downloadLink = document.createElement('a');
+                downloadLink.href = pngDataURL;
+                downloadLink.download = 'table.png';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            });
+            showTableElements();
+        });
 
 
+
+
+        function bayar() {
+            const storeData = {
+                // amount: 1000,
+                amount: parseInt($("#totalSemua").val().replace(/\D/g, ''), 10),
+            }
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('bayar') }}",
+                data: {
+                    'data': storeData
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function(result) {
+                    const tokenSnap = result.data;
+
+                    if (tokenSnap) {
+
+                        openSnap(tokenSnap)
+                    } else {
+                        alert("Error")
+                    }
+                }
+            });
+        }
+
+        function openSnap(token) {
+            window.snap.pay(token, {
+                onSuccess: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment success!");
+                    $("#card-payment").hide();
+                    $("#payment-success").show();
+                    $("#payment-pending").hide();
+                    $("#payment-failed").hide();
+                },
+                onPending: function(result) {
+                    /* You may add your own implementation here */
+                    alert("wating your payment!");
+                    console.log(result);
+                    $("#card-payment").hide();
+                    $("#payment-success").hide();
+                    $("#payment-pending").show();
+                    $("#payment-failed").hide();
+                },
+                onError: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment failed!");
+                    $("#card-payment").hide();
+                    $("#payment-success").hide();
+                    $("#payment-pending").hide();
+                    $("#payment-failed").show();
+                    console.log(result);
+                },
+                onClose: function() {
+                    /* You may add your own implementation here */
+                    alert('you closed the popup without finishing the payment');
+                    $("#card-payment").hide();
+                    $("#payment-success").hide();
+                    $("#payment-pending").show();
+                    $("#payment-failed").hide();
+                }
+            })
+        }
 
         function toggleDescription(element) {
             $("#fullDescription-" + element).show();
@@ -703,10 +957,30 @@
                     0;
                 total += nilaiTotal;
             });
-            $("#subTotal").val(total);
             let pajak = 10 / 100 * total;
-            $("#pajak").val(pajak);
-            $("#totalSemua").val(pajak + total);
+
+            const subT = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(total);
+            const subP = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(pajak);
+            const subTS = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(pajak + total);
+            $("#subTotal").val(subT);
+            $("#pajak").val(subP);
+            $("#totalSemua").val(subTS);
+            $("#price").text(subTS);
         }
     </script>
 @endSection
