@@ -38,7 +38,7 @@ class UserController extends Controller
 
             $params = array(
                 'transaction_details' => array(
-                    'order_id'      => rand(1, 100),
+                    'order_id'      => rand(1, 100000),
                     'gross_amount'  => $data['amount']
                 ),
                 'customer_details'  => array(

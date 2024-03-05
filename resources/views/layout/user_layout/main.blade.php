@@ -52,10 +52,10 @@
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__wobble" src="{{ asset('image/assets/logob.png') }}" alt="AdminLTELogo"
                 height="100" width="100">
-        </div>
+        </div> --}}
 
         <!-- Navbar -->
         <nav class="navbar navbar-expand navbar-light navbar-additional row">

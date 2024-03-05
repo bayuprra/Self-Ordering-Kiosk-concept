@@ -113,7 +113,7 @@
             width: 100%;
         }
 
-        #mennu {
+        .mennu {
             max-height: 420px;
             overflow-y: auto;
         }
@@ -204,11 +204,17 @@
             transition: box-shadow 0.15s ease-in-out;
         }
 
+        #example1 th:first-child {
+            width: 30%;
+        }
 
         @media only screen and (max-width: 576px) {
+            #example1 th {
+                width: auto;
+            }
 
             /* Small devices (landscape phones, 576px and up) */
-            #mennu {
+            .mennu {
                 max-height: 600px;
                 /* Sesuaikan nilai max-height untuk layar laptop */
             }
@@ -299,7 +305,7 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-                                        <div class="card-body" id="mennu">
+                                        <div class="card-body mennu" id="mennu">
                                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                                 @php
                                                     $num = 1;
@@ -450,65 +456,69 @@
                                 </div>
                                 <div id="detailPesanan" class="content" role="tabpanel"
                                     aria-labelledby="detailPesanan-trigger">
-                                    <table id="example1" class="table" style="background-color: white;">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 30%">Menu</th>
-                                                <th>Jumlah</th>
-                                                <th>Harga</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <form action="{{ route('addMenu') }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <tbody id="formContainer">
-                                            </tbody>
-                                        </form>
-                                        <tfoot>
-                                            <tr>
-                                                <th colspan="1" style="text-align: right;"><button type="button"
-                                                        id="finishOrder" class="btn  btn-info btn-block">Payment</button>
-                                                </th>
-                                                <th colspan="3">
-                                                </th>
+                                    <div class="card-body mennu table-responsive">
 
-                                            </tr>
-                                        </tfoot>
-                                        <tfoot>
-                                            <tr>
-                                                <th colspan="2"></th>
-                                                <th>SUBTOTAL</th>
-                                                <th colspan="2">
-                                                    <input type="text" id="subTotal" name="subTotal" disabled
-                                                        style="width:100%" value="Rp. 0" />
-                                                </th>
-                                            </tr>
-                                        </tfoot>
-                                        <tfoot>
-                                            <tr>
-                                                <th colspan="2"></th>
-                                                <th>PB1 10%</th>
-                                                <th colspan="2">
-                                                    <input type="text" id="pajak" name="pajak" disabled
-                                                        style="width:100%" value="Rp. 0" />
-                                                </th>
-                                            </tr>
-                                        </tfoot>
-                                        <tfoot>
-                                            <tr>
-                                                <th colspan="2"></th>
-                                                <th>TOTAL</th>
-                                                <th colspan="2">
-                                                    <input type="text" id="totalSemua" name="totalSemua" disabled
-                                                        style="width:100%" value="Rp. 0" />
-                                                </th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                        <table id="example1" class="table" style="background-color: white;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Menu</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Harga</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <form action="{{ route('addMenu') }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <tbody id="formContainer">
+                                                </tbody>
+                                            </form>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="1" style="text-align: right;"><button type="button"
+                                                            id="finishOrder"
+                                                            class="btn  btn-info btn-block">Payment</button>
+                                                    </th>
+                                                    <th colspan="3">
+                                                    </th>
+
+                                                </tr>
+                                            </tfoot>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="2"></th>
+                                                    <th>SUBTOTAL</th>
+                                                    <th colspan="2">
+                                                        <input type="text" id="subTotal" name="subTotal" disabled
+                                                            style="width:100%" value="Rp. 0" />
+                                                    </th>
+                                                </tr>
+                                            </tfoot>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="2"></th>
+                                                    <th>PB1 10%</th>
+                                                    <th colspan="2">
+                                                        <input type="text" id="pajak" name="pajak" disabled
+                                                            style="width:100%" value="Rp. 0" />
+                                                    </th>
+                                                </tr>
+                                            </tfoot>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="2"></th>
+                                                    <th>TOTAL</th>
+                                                    <th colspan="2">
+                                                        <input type="text" id="totalSemua" name="totalSemua" disabled
+                                                            style="width:100%" value="Rp. 0" />
+                                                    </th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div id="payment" class="content" role="tabpanel" aria-labelledby="payment-trigger">
-                                    <div class="card" id="card-payment">
+                                    {{-- <div class="card" id="card-payment">
                                         <p class="title">PAYMENT</p>
                                         <div class="pricecontainer">
                                             <p class="price" id="price">RP.0</p>
@@ -518,17 +528,15 @@
                                         <div class="btncontainer">
                                             <button class="payNow" onclick="bayar()">PAY NOW</button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="card" id="payment-success" style="display: none">
                                         <p class="title">PAYMENT</p>
                                         <div class="pricecontainer">
                                             <p class="price">PAYMENT SUCCESS!</p>
                                             <p class="pricedescriptor"></p>
                                         </div>
-                                        <p class="includes">Download Nota!</p>
-                                        <div class="btncontainer">
-                                            <button id="downloadNota">Download</button>
-                                        </div>
+                                        <p class="includes">Your Order Will be Prepared, Please Wait a While!</p>
+
                                     </div>
                                     <div class="card" id="payment-pending" style="display: none">
                                         <p class="title">PAYMENT</p>
@@ -624,6 +632,7 @@
             window.stepper = new Stepper(document.querySelector(".bs-stepper"));
         });
         $(document).ready(function() {
+
             var x = setInterval(function() {
                 const jumlahCart = $("#cart");
                 let jmlCart = sessionStorage.getItem('cart') ?? 0;
@@ -665,58 +674,38 @@
             $("#nextDown").show();
         })
         $("#finishOrder").click(function(e) {
-            // hideTableElements();
-            // html2canvas($('#example1')[0]).then(function(canvas) {
-            //     // Convert canvas to PNG as a data URL
-            //     const pngDataURL = canvas.toDataURL('image/png');
-
-            //     // Create a download link and click it
-            //     const downloadLink = document.createElement('a');
-            //     downloadLink.href = pngDataURL;
-            //     downloadLink.download = 'table.png';
-            //     document.body.appendChild(downloadLink);
-            //     downloadLink.click();
-            //     document.body.removeChild(downloadLink);
-            // });
-            // showTableElements();
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, Continue!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    stepper.next();
-                    $("#backDown").hide();
-                    $("#nextDown").hide();
-                }
-            });
-
-        })
-        $("body").on("click", "#downloadNota", function(e) {
+            let pngDataURL = null;
             hideTableElements();
             html2canvas($('#example1')[0]).then(function(canvas) {
                 // Convert canvas to PNG as a data URL
-                const pngDataURL = canvas.toDataURL('image/png');
+                pngDataURL = canvas.toDataURL('image/png');
 
-                // Create a download link and click it
-                const downloadLink = document.createElement('a');
-                downloadLink.href = pngDataURL;
-                downloadLink.download = 'table.png';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
+                console.log(pngDataURL)
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Continue!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#backDown").hide();
+                        $("#nextDown").hide();
+                        bayar(pngDataURL);
+                    }
+                });
             });
             showTableElements();
-        });
+
+
+        })
 
 
 
 
-        function bayar() {
+        function bayar(pngDataURL) {
             const storeData = {
                 // amount: 1000,
                 amount: parseInt($("#totalSemua").val().replace(/\D/g, ''), 10),
@@ -737,7 +726,7 @@
 
                     if (tokenSnap) {
 
-                        openSnap(tokenSnap)
+                        openSnap(tokenSnap, pngDataURL)
                     } else {
                         alert("Error")
                     }
@@ -745,12 +734,20 @@
             });
         }
 
-        function openSnap(token) {
+        function openSnap(token, pngDataURL) {
             window.snap.pay(token, {
                 onSuccess: function(result) {
+                    console.log(result)
                     /* You may add your own implementation here */
                     alert("payment success!");
                     $("#card-payment").hide();
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = pngDataURL;
+                    downloadLink.download = 'table.png';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                    stepper.next();
                     $("#payment-success").show();
                     $("#payment-pending").hide();
                     $("#payment-failed").hide();
@@ -759,24 +756,27 @@
                     /* You may add your own implementation here */
                     alert("wating your payment!");
                     console.log(result);
-                    $("#card-payment").hide();
+                    stepper.next();
+
                     $("#payment-success").hide();
                     $("#payment-pending").show();
                     $("#payment-failed").hide();
                 },
                 onError: function(result) {
+
                     /* You may add your own implementation here */
                     alert("payment failed!");
-                    $("#card-payment").hide();
+                    stepper.next();
                     $("#payment-success").hide();
                     $("#payment-pending").hide();
                     $("#payment-failed").show();
                     console.log(result);
                 },
                 onClose: function() {
+
                     /* You may add your own implementation here */
                     alert('you closed the popup without finishing the payment');
-                    $("#card-payment").hide();
+                    stepper.next();
                     $("#payment-success").hide();
                     $("#payment-pending").show();
                     $("#payment-failed").hide();

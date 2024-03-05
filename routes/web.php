@@ -48,7 +48,6 @@ Route::controller(MenuController::class)->middleware('auth')->group(function () 
     Route::post('/addMenu', 'store')->name('addMenu');
     Route::post('/updateMenu', 'update')->name('updateMenu');
     Route::post('/deleteMenu', 'delete')->name('deleteMenu');
-    Route::post('/menuById', 'findById')->name('menuById');
 });
 
 Route::controller(MejaController::class)->middleware('auth')->group(function () {
@@ -58,6 +57,11 @@ Route::controller(MejaController::class)->middleware('auth')->group(function () 
     Route::post('/deleteMeja', 'delete')->name('deleteMeja');
 });
 
+
+//user route
+Route::controller(MenuController::class)->group(function () {
+    Route::post('/menuById', 'findById')->name('menuById');
+});
 Route::controller(UserController::class)->group(function () {
     Route::get('/order', 'index')->name('order')->where('table', '[0-9]+');
     Route::post('/bayar', 'bayar')->name('bayar');
