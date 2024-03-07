@@ -48,6 +48,10 @@ Route::controller(MenuController::class)->middleware('auth')->group(function () 
     Route::post('/addMenu', 'store')->name('addMenu');
     Route::post('/updateMenu', 'update')->name('updateMenu');
     Route::post('/deleteMenu', 'delete')->name('deleteMenu');
+
+    // today's menu
+    Route::get('/todaysMenu', 'todaysMenu')->name('todaysMenu');
+    Route::post('/setUnavailbleMenu', 'setUnavailbleMenu')->name('setUnavailbleMenu');
 });
 
 Route::controller(MejaController::class)->middleware('auth')->group(function () {

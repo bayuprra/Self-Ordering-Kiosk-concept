@@ -30,4 +30,24 @@ class Menu extends Model
             )
             ->get();
     }
+    function setAvailableMenu($id, $conn)
+    {
+        $c = 1;
+        try {
+            $menu = Menu::find($id);
+            if ($conn != 1) {
+                $c = 0;
+            }
+            if ($menu) {
+                $menu->available = $c;
+                $menu->save();
+
+                return true; // or any other response you want
+            } else {
+                return false; // or any other response you want
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

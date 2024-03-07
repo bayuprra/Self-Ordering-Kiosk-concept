@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -99,12 +100,54 @@ class MenuController extends Controller
 
     public function findById(Request $request)
     {
-        $data = $request->input('data');;
+        $data = $request->input('data');
         $id = $data['id'];
         $dataMenu = $this->menuModel->where('id', $id)->first();
         if ($dataMenu) {
             return response()->json(['data' => $dataMenu]);
         }
         return response()->json(['data' => false]);
+    }
+
+    public function todaysMenu()
+    {
+        $data = array(
+            'title'         => "Today's Menu",
+            'folder'        => "Home",
+            'menu'     => $this->menuModel->all(),
+        );
+        return view('layout/admin_layout/todayMenu', $data);
+    }
+
+    public function setUnavailbleMenu(Request $request)
+    {
+        try {
+            $data = $request->input('data');
+            $dataUnavailable = $data['unavail'] ?? [];
+            $allmenu = $this->menuModel->all()->toArray();
+            $allmenuIds = array_column($allmenu, 'id');
+            if (!empty($dataUnavailable)) {
+                foreach ($dataUnavailable as $unav) {
+                    $this->menuModel->setAvailableMenu($unav, 0);
+                    if (($key = array_search(intval($unav), $allmenuIds)) !== false) {
+                        unset($allmenuIds[$key]);
+                    }
+                }
+            }
+            foreach ($allmenuIds as $ava) {
+                $this->menuModel->setAvailableMenu($ava, 1);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Updated Menu Success!',
+                'data' => true,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Updated Menu Failed!',
+                'error' => $e->getMessage(),
+            ], 200);
+        }
     }
 }

@@ -333,7 +333,15 @@
                                                                         @endphp
                                                                     @endif
                                                                     <div class="col-md-3 col-sm-4 col-xs-6">
-                                                                        <div class="card">
+                                                                        @if ($me->available == 0)
+                                                                            <div class="ribbon-wrapper ribbon-xl">
+                                                                                <div class="ribbon bg-secondary">
+                                                                                    Not Available
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                        <div class="card"
+                                                                            style="{{ $me->available == 0 ? 'pointer-events: none;opacity:0.5;' : '' }}">
                                                                             <div class="card-image"
                                                                                 style="max-height: 250px;">
                                                                                 <img class="img-fluid"
@@ -701,9 +709,6 @@
 
 
         })
-
-
-
 
         function bayar(pngDataURL) {
             const storeData = {
