@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MejaController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -61,7 +62,9 @@ Route::controller(MejaController::class)->middleware('auth')->group(function () 
     Route::post('/deleteMeja', 'delete')->name('deleteMeja');
 });
 
-
+Route::controller(TransaksiController::class)->middleware('auth')->group(function () {
+    Route::get('/dataTransaksi', 'index')->name('dataTransaksi');
+});
 //user route
 Route::controller(MenuController::class)->group(function () {
     Route::post('/menuById', 'findById')->name('menuById');
@@ -69,4 +72,9 @@ Route::controller(MenuController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/order', 'index')->name('order')->where('table', '[0-9]+');
     Route::post('/bayar', 'bayar')->name('bayar');
+    Route::post('/storeOrder', 'storeOrder')->name('storeOrder');
+});
+Route::controller(TransaksiController::class)->group(function () {
+    Route::post('/addTransaksi', 'store')->name('addTransaksi');
+    Route::post('/updateTransaksi', 'update')->name('updateTransaksi');
 });

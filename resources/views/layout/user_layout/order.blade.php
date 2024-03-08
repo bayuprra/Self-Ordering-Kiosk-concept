@@ -699,9 +699,68 @@
                     confirmButtonText: "Yes, Continue!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $("#backDown").hide();
-                        $("#nextDown").hide();
-                        bayar(pngDataURL);
+                        const trans = {
+                            meja_id: {{ $table }},
+                            total: parseInt($("#totalSemua").val().replace(/\D/g, ''), 10),
+                            pajak: parseInt($("#pajak").val().replace(/\D/g, ''), 10),
+                            subtotal: parseInt($("#subTotal").val().replace(/\D/g, ''), 10),
+                        }
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: "{{ route('addTransaksi') }}",
+                            data: {
+                                'data': trans
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(res) {
+                                const menu = $("input[name='nama[]']").map(function() {
+                                    return $(this).val();
+                                }).get();
+                                const jumlah = $("input[name='jumlah[]']").map(
+                                    function() {
+                                        return $(this).val();
+                                    }).get()
+                                const harga = $("input[name='harga[]']").map(
+                                    function() {
+                                        return $(this).val();
+                                    }).get()
+                                const total = $("input[name='total[]']").map(
+                                    function() {
+                                        return $(this).val();
+                                    }).get()
+                                const orderData = {
+                                    tId: res.id,
+                                    menu: menu,
+                                    jumlah: jumlah,
+                                    harga: harga,
+                                    total: total
+                                }
+
+                                $.ajax({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $(
+                                            'meta[name="csrf-token"]').attr(
+                                            'content')
+                                    },
+                                    url: "{{ route('storeOrder') }}",
+                                    data: {
+                                        'data': orderData
+                                    },
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function(result) {
+                                        console.log(result)
+                                        $("#backDown").hide();
+                                        $("#nextDown").hide();
+                                        bayar(pngDataURL, res.id);
+                                    }
+                                });
+
+                            }
+                        });
                     }
                 });
             });
@@ -710,9 +769,10 @@
 
         })
 
-        function bayar(pngDataURL) {
+        function bayar(pngDataURL, transaksiId) {
+
             const storeData = {
-                // amount: 1000,
+                transaksiId: transaksiId,
                 amount: parseInt($("#totalSemua").val().replace(/\D/g, ''), 10),
             }
 
@@ -731,7 +791,7 @@
 
                     if (tokenSnap) {
 
-                        openSnap(tokenSnap, pngDataURL)
+                        openSnap(tokenSnap, pngDataURL, transaksiId)
                     } else {
                         alert("Error")
                     }
@@ -739,12 +799,13 @@
             });
         }
 
-        function openSnap(token, pngDataURL) {
+        function openSnap(token, pngDataURL, tranId) {
             window.snap.pay(token, {
                 onSuccess: function(result) {
                     console.log(result)
                     /* You may add your own implementation here */
                     alert("payment success!");
+                    updateTransaksi(tranId, result.payment_type, "Success")
                     $("#card-payment").hide();
                     const downloadLink = document.createElement('a');
                     downloadLink.href = pngDataURL;
@@ -760,6 +821,8 @@
                 onPending: function(result) {
                     /* You may add your own implementation here */
                     alert("wating your payment!");
+                    updateTransaksi(tranId, "none", "Waiting")
+
                     console.log(result);
                     stepper.next();
 
@@ -771,6 +834,8 @@
 
                     /* You may add your own implementation here */
                     alert("payment failed!");
+                    updateTransaksi(tranId, "none", "Failed")
+
                     stepper.next();
                     $("#payment-success").hide();
                     $("#payment-pending").hide();
@@ -781,12 +846,36 @@
 
                     /* You may add your own implementation here */
                     alert('you closed the popup without finishing the payment');
+                    updateTransaksi(tranId, "none", "Waiting")
                     stepper.next();
                     $("#payment-success").hide();
                     $("#payment-pending").show();
                     $("#payment-failed").hide();
                 }
             })
+        }
+
+        function updateTransaksi(trId, metode, status_pem) {
+            const upd = {
+                transaksiId: trId,
+                metode: metode,
+                status_pembayaran: status_pem,
+                status: 0
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('updateTransaksi') }}",
+                data: {
+                    'data': upd
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function(result) {
+                    console.log(result)
+                }
+            });
         }
 
         function toggleDescription(element) {

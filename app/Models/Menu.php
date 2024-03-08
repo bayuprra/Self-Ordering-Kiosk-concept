@@ -28,6 +28,7 @@ class Menu extends Model
                 'm.*',
                 'k.nama as kategori'
             )
+            ->orderBy('m.available', 'DESC')
             ->get();
     }
     function setAvailableMenu($id, $conn)
@@ -42,9 +43,9 @@ class Menu extends Model
                 $menu->available = $c;
                 $menu->save();
 
-                return true; // or any other response you want
+                return true;
             } else {
-                return false; // or any other response you want
+                return false;
             }
         } catch (\Exception $e) {
             return false;

@@ -38,7 +38,7 @@ class UserController extends Controller
 
             $params = array(
                 'transaction_details' => array(
-                    'order_id'      => rand(1, 100000),
+                    'order_id'      => $data['transaksiId'],
                     'gross_amount'  => $data['amount']
                 ),
                 'customer_details'  => array(
@@ -50,6 +50,36 @@ class UserController extends Controller
             return response()->json(['data' => $snapToken]);
         } catch (Exception $e) {
             return response()->json(['data' => $e->getMessage()]);
+        }
+    }
+
+    public function storeOrder(Request $request)
+    {
+        try {
+            $data = $request->input('data');
+
+            $tranId = $data['tId'];
+
+            foreach ($data['menu'] as $index => $menu) {
+                $dataToInserted = [
+                    'transaksi_id' => $tranId,
+                    'menu'         => $menu,
+                    'jumlah'       => intval($data['jumlah'][$index]),
+                    'harga'        => intval($data['harga'][$index]),
+                    'total'        => intval($data['total'][$index]),
+                ];
+
+                $this->orderModel::create($dataToInserted);
+            }
+
+            return response()->json([
+                'success' => true,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error'   => $e->getMessage(),
+            ], 500);
         }
     }
 }
