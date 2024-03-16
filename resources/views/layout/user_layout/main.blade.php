@@ -34,6 +34,7 @@
 
     {{-- steeper --}}
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/bs-stepper/css/bs-stepper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/toastr/toastr.min.css') }}">
 
     <style>
         /* body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
@@ -69,7 +70,26 @@
             </ul>
             <ul class="navbar-nav col-6 ml-auto justify-content-end">
                 <!-- Navbar Search -->
-
+                @php $role = session()->get('data')->nama_role??"" @endphp
+                @if ($role == 'kitchen')
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-bell"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-default dropdown-menu-right">
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            </a>
+                            <form action="{{ route('logout') }}" method="post" id="formLogout">
+                                @csrf
+                                <button type="submit" hidden>Logout</button>
+                            </form>
+                            <a href="{{ route('changePassword') }}" class="dropdown-item">
+                                <i class="fas fa-key mr-2"></i> Ganti Password
+                            </a>
+                        </div>
+                    </li>
+                @endif
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -105,6 +125,8 @@
     <script src="{{ asset('AdminLTE/dist/js/adminlte.js') }}"></script>
 
     <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script src="{{ asset('AdminLTE/plugins/toastr/toastr.min.js') }}"></script>
 
     {{-- steeper --}}
     <script src="{{ asset('AdminLTE/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>

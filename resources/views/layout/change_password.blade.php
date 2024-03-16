@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nama | Log in</title>
+    <title>Phoenix Gastrobar | Password</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -15,12 +15,49 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.min.css') }}">
+    <style>
+        :root {
+            --primary: #E25E3E;
+            --secondary: #FF9B50;
+            --third: #FFBB5C;
+        }
+
+        .login-page {
+            background-image: url("{{ asset('image/assets/logo.png') }}");
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(8px);
+            aspect-ratio: auto;
+        }
+
+        .img-circle {
+            border-color: var(--primary);
+        }
+
+        .login-logo b {
+            color: var(--primary);
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--third);
+            color: black;
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
-    <div class="login-box">
+    <div class="text-center">
+        <img class="profile-user-img img-fluid img-circle" src="{{ asset('image/assets/logo.png') }}"
+            alt="Phoenix Gatrobar Logo">
+    </div>
+    <div class="login-box ">
         <div class="login-logo">
-            <a href="{{ asset('AdminLTE/index2.html') }}"><b>nana</b>nama</a>
+            <a href="{{ asset('AdminLTE/index2.html') }}"><b>Phoenix</b>Gastrobar</a>
         </div>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

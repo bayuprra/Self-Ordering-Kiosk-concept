@@ -117,7 +117,7 @@
                                             @foreach ($order as $or)
                                                 @if ($da->id == $or->transaksi_id)
                                                     <tr>
-                                                        <td>{{ $or->menu }}</td>
+                                                        <td>{{ strtoupper($or->menu) }}</td>
                                                         <td>{{ $or->jumlah }}</td>
                                                         <td>{{ $or->harga }}</td>
                                                         <td>{{ $or->total }}</td>
@@ -167,7 +167,7 @@
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -184,7 +184,60 @@
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["excel", "pdf", "print", "colvis"],
+                "buttons": [{
+                    text: 'Export',
+                    className: 'filter-dropdown',
+                    extend: 'collection',
+                    buttons: [{
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible' // Ekspor kolom yang terlihat
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            exportOptions: {
+                                columns: ':visible' // Ekspor kolom yang terlihat
+                            }
+                        }, {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible' // Ekspor kolom yang terlihat
+                            }
+                        }
+                    ]
+                }, "colvis", {
+                    text: 'Filter',
+                    className: 'filter-dropdown',
+                    extend: 'collection',
+                    buttons: [{
+                            text: 'All',
+                            action: function(e, dt, node, config) {
+                                let tod = new Date().getDate()
+                                dt.column(1).search('').draw();
+                            }
+                        }, {
+                            text: 'Today',
+                            action: function(e, dt, node, config) {
+                                let tod = new Date().getDate()
+                                dt.column(1).search(tod)
+                                    .draw();
+                            }
+                        },
+                        {
+                            text: 'This Month',
+                            action: function(e, dt, node, config) {
+                                let tod = new Date().getMonth()
+                                let months = ['Januari', 'Februari', 'Maret', 'April',
+                                    'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                                    'Oktober', 'November', 'Desember'
+                                ];
+                                let monthName = months[tod];
+                                dt.column(1).search(monthName).draw();
+                            }
+                        }
+                    ]
+                }],
                 "columnDefs": [{
                         "width": "10%",
                         "targets": 2

@@ -17,16 +17,23 @@ class AkunSeeder extends Seeder
     {
         $data = [
             [
-                'username'         => 'admin@gmail.com',
-                'password'      => bcrypt("admin123"),
+                'username'         => 'owner@gmail.com',
+                'password'      => bcrypt("owner1234"),
                 'role_id'       => 1,
                 'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'username'         => 'user1@gmail.com',
-                'password'      => bcrypt("user1234"),
+                'username'         => 'kasir@gmail.com',
+                'password'      => bcrypt("kasir1234"),
                 'role_id'       => 2,
+                'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'username'         => 'kitchen@gmail.com',
+                'password'      => bcrypt("kitchen1234"),
+                'role_id'       => 3,
                 'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
             ]

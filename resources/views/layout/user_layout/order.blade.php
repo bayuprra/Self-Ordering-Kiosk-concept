@@ -464,65 +464,86 @@
                                 </div>
                                 <div id="detailPesanan" class="content" role="tabpanel"
                                     aria-labelledby="detailPesanan-trigger">
-                                    <div class="card-body mennu table-responsive">
+                                    <div class="card-body mennu table-responsive" style="background-color: white;">
+                                        <div class="row">
+                                            @php use Carbon\Carbon; @endphp
+                                            <table id="example1" class="table" style="background-color: white;">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2"><img
+                                                                src="{{ asset('image/assets/logob.png') }}"
+                                                                alt="Logo" class="image img-circle"
+                                                                style="max-height: 30px; width:auto">
+                                                            Phoenix
+                                                            Gastrobar</th>
+                                                        <th colspan="2" style="text-align: right;"><b>Tanggal
+                                                                Order:</b>
+                                                            {{ Carbon::parse(NOW())->locale('id_ID')->isoFormat('D MMMM YYYY, H:mm') }}<br>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="4"></th>
+                                                    </tr>
+                                                </thead>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Menu</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Harga</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <form action="{{ route('addMenu') }}" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <tbody id="formContainer">
+                                                    </tbody>
+                                                </form>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="1" style="text-align: right;"><button
+                                                                type="button" id="finishOrder"
+                                                                class="btn  btn-info btn-block">Payment</button>
+                                                        </th>
+                                                        <th colspan="3">
+                                                        </th>
 
-                                        <table id="example1" class="table" style="background-color: white;">
-                                            <thead>
-                                                <tr>
-                                                    <th>Menu</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Harga</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <form action="{{ route('addMenu') }}" method="POST"
-                                                enctype="multipart/form-data">
-                                                @csrf
-                                                <tbody id="formContainer">
-                                                </tbody>
-                                            </form>
-                                            <tfoot>
-                                                <tr>
-                                                    <th colspan="1" style="text-align: right;"><button type="button"
-                                                            id="finishOrder"
-                                                            class="btn  btn-info btn-block">Payment</button>
-                                                    </th>
-                                                    <th colspan="3">
-                                                    </th>
-
-                                                </tr>
-                                            </tfoot>
-                                            <tfoot>
-                                                <tr>
-                                                    <th colspan="2"></th>
-                                                    <th>SUBTOTAL</th>
-                                                    <th colspan="2">
-                                                        <input type="text" id="subTotal" name="subTotal" disabled
-                                                            style="width:100%" value="Rp. 0" />
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                            <tfoot>
-                                                <tr>
-                                                    <th colspan="2"></th>
-                                                    <th>PB1 10%</th>
-                                                    <th colspan="2">
-                                                        <input type="text" id="pajak" name="pajak" disabled
-                                                            style="width:100%" value="Rp. 0" />
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                            <tfoot>
-                                                <tr>
-                                                    <th colspan="2"></th>
-                                                    <th>TOTAL</th>
-                                                    <th colspan="2">
-                                                        <input type="text" id="totalSemua" name="totalSemua" disabled
-                                                            style="width:100%" value="Rp. 0" />
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                                    </tr>
+                                                </tfoot>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="2"></th>
+                                                        <th>SUBTOTAL</th>
+                                                        <th colspan="2">
+                                                            <input type="text" id="subTotal" name="subTotal" disabled
+                                                                style="width:100%" value="Rp. 0" />
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="2"></th>
+                                                        <th>PB1 10%</th>
+                                                        <th colspan="2">
+                                                            <input type="text" id="pajak" name="pajak" disabled
+                                                                style="width:100%" value="Rp. 0" />
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="2"></th>
+                                                        <th>TOTAL</th>
+                                                        <th colspan="2">
+                                                            <input type="text" id="totalSemua" name="totalSemua"
+                                                                disabled style="width:100%" value="Rp. 0" />
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                                 <div id="payment" class="content" role="tabpanel" aria-labelledby="payment-trigger">
@@ -656,7 +677,7 @@
         });
 
         function hideTableElements() {
-            $('#example1 thead, #finishOrder').css('display', 'none');
+            $('#finishOrder').css('display', 'none');
             $('#example1 input').css('border', 'none');
             $('#example1').css('border', 'none');
             $('#example1 input[name="jumlah"]').prop('disabled', true);
@@ -804,7 +825,6 @@
                 onSuccess: function(result) {
                     console.log(result)
                     /* You may add your own implementation here */
-                    alert("payment success!");
                     updateTransaksi(tranId, result.payment_type, "Success")
                     $("#card-payment").hide();
                     const downloadLink = document.createElement('a');
@@ -820,7 +840,6 @@
                 },
                 onPending: function(result) {
                     /* You may add your own implementation here */
-                    alert("wating your payment!");
                     updateTransaksi(tranId, "none", "Waiting")
 
                     console.log(result);
@@ -833,7 +852,6 @@
                 onError: function(result) {
 
                     /* You may add your own implementation here */
-                    alert("payment failed!");
                     updateTransaksi(tranId, "none", "Failed")
 
                     stepper.next();
@@ -845,7 +863,6 @@
                 onClose: function() {
 
                     /* You may add your own implementation here */
-                    alert('you closed the popup without finishing the payment');
                     updateTransaksi(tranId, "none", "Waiting")
                     stepper.next();
                     $("#payment-success").hide();

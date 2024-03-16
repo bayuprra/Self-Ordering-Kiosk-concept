@@ -1,3 +1,8 @@
+@php
+    $role = session()->get('data')->nama_role ?? 'gu';
+@endphp
+
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-additional">
     <!-- Brand Logo -->
     <a href="#" class="brand-link" style="background-color: var(--primary)">
@@ -32,70 +37,89 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-hamburger"></i>
-                        <p>
-                            Manage
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('meja') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Table
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('kategori') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Kategori
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('mennu') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Menu</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('todaysMenu') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Today's Menu</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                        <p>
-                            Transaksi
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('dataTransaksi') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Data Transaksi
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if ($role == 'owner' || $role == 'kasir')
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-hamburger"></i>
+                            <p>
+                                Manage
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        @if ($role == 'owner')
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('meja') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Table
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('kategori') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Kategori
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('mennu') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Menu</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('todaysMenu') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Today's Menu</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                            <p>
+                                Transaksi
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        @if ($role == 'owner')
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('dataTransaksi') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Data Transaksi
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('kasir') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        History Transaksi
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

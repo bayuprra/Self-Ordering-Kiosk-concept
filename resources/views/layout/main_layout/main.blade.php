@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     {{-- dualisbox --}}
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/toastr/toastr.min.css') }}">
+
     <!-- Select2-->
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -141,6 +144,8 @@
     <script src="{{ asset('AdminLTE/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <script src="{{ asset('AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+
+    <script src="{{ asset('AdminLTE/plugins/toastr/toastr.min.js') }}"></script>
 
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->

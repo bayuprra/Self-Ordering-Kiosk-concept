@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -79,5 +80,32 @@ class TransaksiController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function history()
+    {
+        try {
+            $today = Carbon::today();
+            $trans = $this->transaksiModel::with('meja')->whereDate('created_at', $today)->where('status_pembayaran', 'Success')->orderBy('created_at', 'DESC')->get();
+            return response()->json([
+                'success'   => true,
+                'data'      => $trans
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function kasir()
+    {
+        $today = Carbon::today();
+        $data = array(
+            'title'         => "History Payment",
+            'folder'        => "Home",
+            'data'          => $this->transaksiModel::with('meja')->whereDate('created_at', $today)->where('status_pembayaran', 'Success')->orderBy('created_at', 'DESC')->get()
+        );
+        return view('layout/admin_layout/history', $data);
     }
 }

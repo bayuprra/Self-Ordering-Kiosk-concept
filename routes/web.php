@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\MejaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TransaksiController;
@@ -27,6 +28,8 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/login', 'authentikasi');
     Route::post('/logout', 'logout')->name('logout');
 });
+Route::get('/verifyUser', function () {
+})->middleware('loginRoute');
 
 Route::controller(PasswordController::class)->middleware('auth')->group(function () {
     Route::get('/changePassword', 'index')->name('changePassword');
@@ -64,7 +67,18 @@ Route::controller(MejaController::class)->middleware('auth')->group(function () 
 
 Route::controller(TransaksiController::class)->middleware('auth')->group(function () {
     Route::get('/dataTransaksi', 'index')->name('dataTransaksi');
+    Route::get('/history', 'history')->name('history');
+    Route::get('/kasir', 'kasir')->name('kasir');
 });
+Route::controller(KitchenController::class)->middleware('auth')->group(function () {
+    Route::get('/kitchen', 'index')->name('kitchen');
+    Route::get('/kitchenOrder', 'order')->name('kitchenOrder');
+    Route::post('/checklist', 'checklist')->name('checklist');
+    Route::get('/orderForKitchen', 'orderForKitchen')->name('orderForKitchen');
+    Route::get('/allFinish', 'allFinish')->name('allFinish');
+    Route::post('/Finish', 'Finish')->name('Finish');
+});
+
 //user route
 Route::controller(MenuController::class)->group(function () {
     Route::post('/menuById', 'findById')->name('menuById');
